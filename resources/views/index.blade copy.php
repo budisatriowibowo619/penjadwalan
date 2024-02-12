@@ -54,23 +54,22 @@
         @foreach($data as $row)
             <tr>
                 <td>{{ $row }}</td>
-                @foreach ($jadwal as $row1)
-
-                    @if ( $row1['hari'] == "Sun")
-                        @if ( date('d') == $row1['date'])
-                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;background-color: red;">{{ $row1['text'] }}</td>
+                @for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++)
+                    @if ( date('D', strtotime(date('Y-m-'.$i.''))) == "Sun")
+                        @if ( date('d') == $i)
+                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;background-color: red;"></td>
                         @else
-                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;">{{ $row1['text'] }}</td>
+                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;"></td>
                         @endif                
                     @else
-                        @if ( date('d') == $row1['date'])
-                            <td width="100px" style="text-align: right; background-color: blue; color:white;">{{ $row1['text'] }}</td>
+                        @if ( date('d') == $i)
+                            <td width="100px" style="text-align: right; background-color: blue;"></td>
                         @else
-                            <td width="100px" style="text-align: right;">{{ $row1['text'] }}</td>
+                            <td width="100px" style="text-align: right;"></td>
                         @endif      
                     @endif
 
-                @endforeach
+                @endfor
             </tr>
         @endforeach
       </table>
