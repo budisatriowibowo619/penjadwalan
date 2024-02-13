@@ -13,26 +13,35 @@ class HomeController extends Controller
     {
         $dt_date_permonth = [];
 
-        $dt_jadwal = [
-            ['tanggal'   => '2024-02-07', 'text'      => 'Ada jadwal 13'],
-            ['tanggal'  => '2024-02-18', 'text' => 'Ada jadwal 18']
-        ];
+        $dt_jadwal = Home::all();
 
         for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++){
             $tanggal = date('Y-m-d', strtotime(date('Y-m-'.$i.'')));
 
-            $text = '';
-            foreach($dt_jadwal as $row){
-                if($row['tanggal'] == $tanggal){
-                    $text = $row['text'];
+            $title = $description = $start_datetime = $start_date = $end_datetime = $end_date = $id_room = null;
+            if(!empty($dt_jadwal)){
+                foreach($dt_jadwal as $row){
+                    $date_start = date("Y-m-d", strtotime($row->start_datetime));
+                    $date_end = date("Y-m-d", strtotime($row->end_datetime));
+                    if($tanggal >= $date_start && $tanggal <=  $date_end){
+                        $title = $row->title;
+                        $description = $row->description;
+                        $id_room = $row->id_room;
+                        $start_date = $date_start;
+                        $end_date = $date_end;
+                    }
                 }
             }
 
             $dt_date_permonth[] = [
-                'tanggal'   => $tanggal,
-                'text'      => $text,
-                'hari'      => date('D', strtotime($tanggal)),
-                'date'      => date('d', strtotime($tanggal))
+                'tanggal'       => $tanggal,
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
+                'title'         => $title,
+                'description'   => $description,
+                'id_room'       => $id_room,
+                'hari'          => date('D', strtotime($tanggal)),
+                'date'          => date('d', strtotime($tanggal))
             ];
         }
 
@@ -40,11 +49,7 @@ class HomeController extends Controller
             'page'      => 'Home',
             'js_script' => '/js/home.js',
             'jadwal'    => $dt_date_permonth,
-            'data'  => [
-                'Jasmine ballroom',
-                'Roses Ballroom',
-                'Lavender Ballroom'
-            ],
+            'data'      => Home::gt_ms_room() 
         ]);
     }
 
