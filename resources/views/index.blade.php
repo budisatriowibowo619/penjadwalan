@@ -19,7 +19,9 @@
 
 <body>
     
-    <table border="1" width="3100px">
+    <div class="tableFixHead">
+    <table border="2" width="4000px">
+        <thead>
         <tr>
             <th width="400px">
                 <select name="bulan" id="bulan">
@@ -45,46 +47,61 @@
             </th>
             @for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++)
                 @if ( date('D', strtotime(date('Y-m-'.$i.''))) == "Sun")
-                    <th width="100px" style="text-align: right;border: 1px solid red;color:red;">{{ date('d', strtotime(date('Y-m-'.$i.''))) }}</th>
+                    <th width="140px" style="text-align: right;border: 1px solid red;color:red;">{{ date('d', strtotime(date('Y-m-'.$i.''))) }}</th>
                 @else
-                    <th width="100px" style="text-align: right;">{{ date('d', strtotime(date('Y-m-'.$i.''))) }}</th>
+                    <th width="140px" style="text-align: right;">{{ date('d', strtotime(date('Y-m-'.$i.''))) }}</th>
                 @endif
             @endfor
         </tr>
+    </thead>
+
         @foreach($data as $row)
             <tr>
-                <td>{{ $row->nama_ruangan }}</td>
+                <td style="border: 2px solid black;">{{ $row->nama_ruangan }}</td>
                 @foreach ($jadwal as $row1)
 
                     @if ( $row1['hari'] == "Sun")
                         @if ( date('d') == $row1['date'])
-                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;background-color: red; font-size : 11px; color:white;">
-                                {{ $row1['title'] }}
-                                <br>
-                                <br>
-                                {{ $row1['start_date'] }} <br> s/d <br>{{ $row1['start_date'] }}
+                            <td width="140px" style="text-align: left;border: 2px solid red;color:red;background-color: red; font-size : 11px; color:white;">
+                                @if ( $row->id == $row1['id_room'] )
+                                    {{ $row1['title'] }}
+                                    <br>
+                                    <br>
+                                    {{ $row1['start_date'] }} <br> s/d <br>{{ $row1['end_date'] }}
+                                @endif
                             </td>
                         @else
-                            <td width="100px" style="text-align: right;border: 1px solid red;color:red;font-size : 11px;">
-                                {{ $row1['title'] }}
-                                <br>
-                                <br>
-                                {{ $row1['start_date'] }} s/d {{ $row1['start_date'] }}
+                            <td width="140px" style="text-align: left;border: 2px solid red;color:red;font-size : 11px;">
+                                @if ( $row->id == $row1['id_room'] )
+                                    {{ $row1['title'] }}
+                                    <br>
+                                    <br>
+                                    {{ $row1['start_date'] }} s/d {{ $row1['end_date'] }}
+                                @endif
                             </td>
                         @endif                
                     @else
                         @if ( date('d') == $row1['date'])
-                            <td width="100px" style="text-align: right; background-color: blue; color:white;">{{ $row1['title'] }}</td>
-                        @else
-                            @if (!empty($row1['title']))
-                                <td width="120px" style="text-align: lefts;background-color:#e4b236; font-size : 11px; color:white;">
+                            <td width="140px" style="text-align: left; border: 2px solid black; background-color: blue; font-size : 11px; color:white;">
+                                @if ( $row->id == $row1['id_room'] )
                                     {{ $row1['title'] }}
                                     <br>
                                     <br>
-                                    {{ $row1['start_date'] }} <br> s/d <br>{{ $row1['start_date'] }}
+                                    {{ $row1['start_date'] }} <br> s/d <br>{{ $row1['end_date'] }}
+                                @endif
+                            </td>
+                        @else
+                            @if (!empty($row1['title']))
+                                <td width="140px" style="border: 2px solid black; text-align: left;background-color:#e4b236; font-size : 11px; color:white;">
+                                    @if ( $row->id == $row1['id_room'] )
+                                        {{ $row1['title'] }}
+                                        <br>
+                                        <br>
+                                        {{ $row1['start_date'] }} <br> s/d <br>{{ $row1['end_date'] }}
+                                    @endif
                                 </td>
                             @else
-                                <td width="100px" style="text-align: right;"></td>
+                                <td width="140px" style="text-align: left; border: 2px solid black;"></td>
                             @endif
                         @endif      
                     @endif
@@ -92,6 +109,8 @@
                 @endforeach
             </tr>
         @endforeach
+        
       </table>
     
+    </div>
 </body>

@@ -2,12 +2,23 @@
     font-family: Arial;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 th {
     /* width: 100px; */
     height: 40px;
     font-size: 20px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: black;
+    COLOR:WHITE;
+    border: 2px solid white;
 }
 
 td {
-    height: 80px;
+    height: 100px;
 }
