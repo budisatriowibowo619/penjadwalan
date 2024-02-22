@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Models\Home;
 
+use DateTime;
+use DateTimeZone;
+use DateInterval;
+use DatePeriod;
+
 class HomeController extends Controller
 {
 
@@ -45,12 +50,73 @@ class HomeController extends Controller
             ];
         }
 
+        $arr_tanggal = [];
+
+        for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++) {
+            $arr_tanggal[] = [
+                'tanggal'   => date('Y-m-'.$i),
+                'day'       => date('d', strtotime(date('Y-m-'.$i.''))),
+                'hari'      => date('D', strtotime(date('Y-m-'.$i.'')))
+            ];
+        }
+
         return view('index', [
             'page'      => 'Home',
             'js_script' => '/js/home.js',
             'jadwal'    => $dt_date_permonth,
-            'data'      => Home::gt_ms_room() 
+            'data'      => Home::gt_ms_room() ,
+            'kalender'  => $arr_tanggal
         ]);
     }
 
+    public function detail()
+    {
+        $dt_tanggal = [];
+
+        for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++){
+            $arr_tanggal[] = [
+                'tanggal'   => date('Y-m-'.$i)
+            ];
+        }
+
+        $def = 0;
+        $dt_awal = date('D', strtotime(date('Y-m-01')));
+        if($dt_awal == 'Sun'){
+            $def = 0;
+        } else if ($dt_awal == 'Mon'){
+            $def = 1;
+        } else if ($dt_awal == 'Tue'){
+            $def = 2;
+        } else if ($dt_awal == 'Wed'){
+            $def = 3;
+        } else if ($dt_awal == 'Thu'){
+            $def = 4;
+        } else if ($dt_awal == 'Fri'){
+            $def = 5;
+        } else if ($dt_awal == 'Sat'){
+            $def = 6;
+        }
+
+        $d = date('d') + $def;
+        
+        // dd(date('Y-m-d', strtotime('-'.$d.' days')));
+
+        // $now = new DateTime( "7 days ago", new DateTimeZone('America/New_York'));
+        $now = new DateTime(date('Y-m-d', strtotime('-'.$d.' days')));
+        $interval = new DateInterval( 'P1D'); // 1 Day interval
+        $period = new DatePeriod( $now, $interval, $def); // 7 Days
+
+        $sale_data = array();
+        foreach( $period as $day) {
+            $key = $day->format( 'Y-m-d');
+            $sale_data[] = [
+                'tanggal'   => $key
+            ];
+        }
+
+        return view('detail', [
+            'kalender'  => array_merge($sale_data, $arr_tanggal),
+            'def'       => $def         
+        ]);
+    }
 }

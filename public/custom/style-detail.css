@@ -1,0 +1,31 @@
+
+.room-title {
+    background-color: blue;
+    color:white;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding:20px;
+    text-align:center;
+    margin-top: 20px;
+}
+
+.calendar {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.head-calendar{
+    text-align:center;
+    background:white;
+    color:black;
+    font-size:24px;
+}
+
+.table-calendar{
+    background-color: white;
+}
+
+.table-calendar th {
+    border-bottom: 2pt solid rgb(221, 221, 221) !important;
+    font-weight: 500 !important;
+  }
