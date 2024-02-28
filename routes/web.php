@@ -16,4 +16,4 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/detail/{slug}', [HomeController::class, 'detail']);
+Route::get('/detail/{id}', [HomeController::class, 'detail']);

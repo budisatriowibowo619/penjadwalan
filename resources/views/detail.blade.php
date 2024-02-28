@@ -23,7 +23,7 @@
     <div class="container">
 
         <div class="room-title">
-            <h1>Bougenville Meeting Room</h1>
+            <h1>{{ $room->nama_ruangan; }}</h1>
         </div>
 
         <div class="calendar">
@@ -45,8 +45,16 @@
                     
                         <tr>
                             @foreach($kal as $row)
-                                <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
-                                    {{ date('d', strtotime($row['tanggal'])); }}
+                                @if(empty($row['title']))
+                                    <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                @else
+                                    <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 2px solid red; color:white; font-size : 20px;">
+                                @endif
+                                    {{ $row['date']; }}
+                                    <br>
+                                    <p style="font-size:14px;text-align:left;">
+                                    {{ $row['title'] }}
+                                    </p>
                                 </td>
                             @endforeach
                         </tr>

@@ -69,7 +69,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function detail()
+    public function detail(Request $request)
     {
         $dt_tanggal = [];
 
@@ -98,7 +98,7 @@ class HomeController extends Controller
             $def = 6;
         }
 
-        $d = date('d') + $def - 1;
+        $d = date('d') + $def;
         
         // dd(date('Y-m-d', strtotime('-'.$d.' days')));
 
@@ -110,9 +110,10 @@ class HomeController extends Controller
         }
 
         // $now = new DateTime( "7 days ago", new DateTimeZone('America/New_York'));
-        $now = new DateTime(date('Y-m-d', strtotime($diffday.' days')));
+        $now = new DateTime(date('Y-m-d', strtotime(($diffday+1).' days')));
+        // dd($now);
         $interval = new DateInterval( 'P1D'); // 1 Day interval
-        $period = new DatePeriod( $now, $interval, $def); // 7 Days
+        $period = new DatePeriod( $now, $interval, ($def-1)); // 7 Days
 
         $sale_data = array();
         foreach( $period as $day) {
@@ -122,9 +123,47 @@ class HomeController extends Controller
             ];
         }
 
+        $merge_tanggal = array_merge($sale_data, $arr_tanggal);
+
+        $dt_date_permonth = [];
+
+        $dt_jadwal = Home::all($request->id);
+
+        foreach($merge_tanggal as $r_tanggal)
+        {
+            $tanggal = $r_tanggal['tanggal'];
+
+            $title = $description = $start_datetime = $start_date = $end_datetime = $end_date = $id_room = null;
+            if(!empty($dt_jadwal)){
+                foreach($dt_jadwal as $row){
+                    $date_start = date("Y-m-d", strtotime($row->start_datetime));
+                    $date_end = date("Y-m-d", strtotime($row->end_datetime));
+                    if($tanggal >= $date_start && $tanggal <=  $date_end){
+                        $title = $row->title;
+                        $description = $row->description;
+                        $start_date = $date_start;
+                        $end_date = $date_end;
+                    }
+                }
+            }
+
+            $dt_date_permonth[] = [
+                'tanggal'       => $tanggal,
+                'start_date'    => $start_date,
+                'end_date'      => $end_date,
+                'title'         => $title,
+                'description'   => $description,
+                'hari'          => date('D', strtotime($tanggal)),
+                'date'          => date('d', strtotime($tanggal))
+            ];
+        }
+
+        // dd($dt_date_permonth);
+
         return view('detail', [
-            'kalender'  => array_merge($sale_data, $arr_tanggal),
-            'def'       => $def         
+            'kalender'  => $dt_date_permonth,
+            'def'       => $def,
+            'room'      => Home::gt_ms_room($request->id),
         ]);
     }
 }
