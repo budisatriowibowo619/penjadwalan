@@ -28,4 +28,8 @@
 .table-calendar th {
     border-bottom: 2pt solid rgb(221, 221, 221) !important;
     font-weight: 500 !important;
-  }
+}
+
+.table-calendar td {
+    height: 130px;
+}

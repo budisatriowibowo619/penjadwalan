@@ -20,36 +20,42 @@
 
 <body>
 
-    <div class="room-title">
-        <h1>Bougenville Meeting Room</h1>
-    </div>
+    <div class="container">
 
-    <div class="calendar">
-        
-        <table width="100%" class="table-calendar">
-            <thead class="head-calendar">
-                <tr>
-                    <th>Minggu</th>
-                    <th>Senin</th>
-                    <th>Selasa</th>
-                    <th>Rabu</th>
-                    <th>Kamis</th>
-                    <th>Jum'at</th>
-                    <th>Sabtu</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(collect($kalender)->chunk(7) as $key => $kal)
-                   
+        <div class="room-title">
+            <h1>Bougenville Meeting Room</h1>
+        </div>
+
+        <div class="calendar">
+            
+            <table width="100%" class="table-calendar">
+                <thead class="head-calendar">
                     <tr>
-                        @foreach($kal as $row)
-                            <td>{{ $row['tanggal'] }}</td>
-                        @endforeach
+                        <th>Minggu</th>
+                        <th>Senin</th>
+                        <th>Selasa</th>
+                        <th>Rabu</th>
+                        <th>Kamis</th>
+                        <th>Jum'at</th>
+                        <th>Sabtu</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach(collect($kalender)->chunk(7) as $key => $kal)
                     
-                @endforeach
-            </tbody>
-        </table>
+                        <tr>
+                            @foreach($kal as $row)
+                                <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                    {{ date('d', strtotime($row['tanggal'])); }}
+                                </td>
+                            @endforeach
+                        </tr>
+                        
+                    @endforeach
+                </tbody>
+            </table>
+
+        </div>
 
     </div>
 </body>

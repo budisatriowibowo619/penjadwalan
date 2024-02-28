@@ -73,14 +73,15 @@ class HomeController extends Controller
     {
         $dt_tanggal = [];
 
-        for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++){
+        for ($i = 1; $i <= date('t', strtotime('Y-m-t')); $i++){
             $arr_tanggal[] = [
-                'tanggal'   => date('Y-m-'.$i)
+                'tanggal'   => date('Y-m-d', strtotime(date('Y-m-'.$i)))
             ];
         }
 
         $def = 0;
         $dt_awal = date('D', strtotime(date('Y-m-01')));
+        
         if($dt_awal == 'Sun'){
             $def = 0;
         } else if ($dt_awal == 'Mon'){
@@ -97,12 +98,19 @@ class HomeController extends Controller
             $def = 6;
         }
 
-        $d = date('d') + $def;
+        $d = date('d') + $def - 1;
         
         // dd(date('Y-m-d', strtotime('-'.$d.' days')));
 
+        $diffday = 0;
+        if($def == 0){
+            $diffday = 0; 
+        } else {
+            $diffday = '-'.$d;
+        }
+
         // $now = new DateTime( "7 days ago", new DateTimeZone('America/New_York'));
-        $now = new DateTime(date('Y-m-d', strtotime('-'.$d.' days')));
+        $now = new DateTime(date('Y-m-d', strtotime($diffday.' days')));
         $interval = new DateInterval( 'P1D'); // 1 Day interval
         $period = new DatePeriod( $now, $interval, $def); // 7 Days
 
