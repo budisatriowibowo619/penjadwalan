@@ -70,7 +70,13 @@
                     {{-- <td style="border: 2px solid black;">{{ $row->nama_ruangan }}</td> --}}
                     @foreach (collect($jadwal)->chunk(7) as $jadwalx)
 
-                    <td style="border: 2px solid black;text-align:center;">{{ $row->nama_ruangan }}</td>
+                    <td style="border: 2px solid black;text-align:center;">
+                        <a href="detail/{{ $row->id }}">
+                            <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
+                                {{ $row->nama_ruangan }}
+                            </div>
+                        </a>
+                    </td>
 
                     @foreach ($jadwalx as $row1)
                         @if ( $row1['hari'] == "Sun")
