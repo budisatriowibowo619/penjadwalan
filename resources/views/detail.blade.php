@@ -47,15 +47,21 @@
                             @foreach($kal as $row)
                                 @if(empty($row['title']))
                                     <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                        {{ $row['date']; }}
+                                        <a href="#" data-toggle="modal" data-tanggal="{{ $row['tanggal']; }}" data-target="#exampleModal" class="button-tanggal">
+                                            <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
+                                                
+                                            </div>
+                                        </a>
                                 @else
                                     <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 2px solid red; color:white; font-size : 20px;">
+                                        {{ $row['date']; }}
+                                        <br>
+                                        <p style="font-size:14px;text-align:left;">
+                                        {{ $row['title'] }}
+                                        </p>
                                 @endif
-                                    {{ $row['date']; }}
-                                    <br>
-                                    <p style="font-size:14px;text-align:left;">
-                                    {{ $row['title'] }}
-                                    </p>
-                                </td>
+                                    </td>
                             @endforeach
                         </tr>
                         
@@ -67,3 +73,35 @@
 
     </div>
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+<script src="{{ asset('/detail.js') }}"></script>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> --}}
+            </div>
+            <form action="#" id="formJadwal" method="POST" class="form-validate is-alter">
+                <div class="modal-body">
+                    <input type="hidden" name="tanggal" id="idTanggal">
+                    <input type="hidden" nama="id_room" value="{{ $room->id; }}">
+                    <div class="form-group">
+                        <label for="" style="padding-bottom:6px;">Dekripsi</label>
+                        <textarea name="deskripsi" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

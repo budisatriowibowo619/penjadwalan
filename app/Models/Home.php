@@ -29,4 +29,14 @@ class Home
 
         return $get_ms_room;
     }
+
+    public static function insert_jadwal($params = [])
+    {
+        DB::table('schedules')->insert([
+            'title'         => $request->deskripsi,
+            'id_room'       => $request->id_room,
+            'start_datetime'=> $request->tanggal.' 00:00:00',
+            'end_datetime'  => $request->tanggal.' 00:00:00',
+        ]);
+    }
 }

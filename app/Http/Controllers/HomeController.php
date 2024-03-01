@@ -166,4 +166,28 @@ class HomeController extends Controller
             'room'      => Home::gt_ms_room($request->id),
         ]);
     }
+
+    public static function ajax_pcs_jadwal(Request $request)
+    {
+        if($request->ajax()) {
+
+            $validator = Validator::make($request->all(), [
+                'id_room'   => 'required',
+                'tanggal'   => 'required',
+                'deskripsi' => 'required'
+            ]);
+
+            if($validator->fails()) return response()->json(implode(',',$validator->errors()->all()), 422);
+
+            Home::insert_jadwal(
+                [
+                    'deskripsi' => $request->deskripsi,
+                    'id_room'   => $request->id_room,
+                    'tanggal'   => $request->tanggal
+                ]
+            );
+
+            return response()->json(['success' => TRUE, 'message'  => 'Data master kendaraan berhasil disimpan']);
+        }
+    }
 }
