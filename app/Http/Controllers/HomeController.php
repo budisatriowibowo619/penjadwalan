@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Home;
 
@@ -14,14 +15,20 @@ use DatePeriod;
 class HomeController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $dt_date_permonth = [];
 
         $dt_jadwal = Home::all();
 
-        for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++){
-            $tanggal = date('Y-m-d', strtotime(date('Y-m-'.$i.'')));
+        $default_date = 'Y-m';
+        if(!empty($request->bulan))
+        {
+            $default_date = $request->tahun.'-'.$request->bulan;
+        }
+
+        for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
+            $tanggal = date('Y-m-d', strtotime(date($default_date.'-'.$i.'')));
 
             $title = $description = $start_datetime = $start_date = $end_datetime = $end_date = $id_room = null;
             if(!empty($dt_jadwal)){
@@ -52,9 +59,9 @@ class HomeController extends Controller
 
         $arr_tanggal = [];
 
-        for ($i = 1; $i <= date('t', strtotime('Y-m-d')); $i++) {
+        for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++) {
             $arr_tanggal[] = [
-                'tanggal'   => date('Y-m-'.$i),
+                'tanggal'   => date($default_date.'-'.$i),
                 'day'       => date('d', strtotime(date('Y-m-'.$i.''))),
                 'hari'      => date('D', strtotime(date('Y-m-'.$i.'')))
             ];
@@ -71,16 +78,23 @@ class HomeController extends Controller
 
     public function detail(Request $request)
     {
+
         $dt_tanggal = [];
 
-        for ($i = 1; $i <= date('t', strtotime('Y-m-t')); $i++){
+        $default_date = 'Y-m';
+        if(!empty($request->bulan))
+        {
+            $default_date = $request->tahun.'-'.$request->bulan;
+        }
+
+        for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
             $arr_tanggal[] = [
-                'tanggal'   => date('Y-m-d', strtotime(date('Y-m-'.$i)))
+                'tanggal'   => date('Y-m-d', strtotime(date($default_date.'-'.$i)))
             ];
         }
 
         $def = 0;
-        $dt_awal = date('D', strtotime(date('Y-m-01')));
+        $dt_awal = date('D', strtotime(date($default_date.'-01')));
         
         if($dt_awal == 'Sun'){
             $def = 0;
@@ -98,8 +112,14 @@ class HomeController extends Controller
             $def = 6;
         }
 
-        $d = date('d') + $def;
-        
+        if(!empty($request->bulan))
+        {
+            $jumlah_hari_sebelumnya = date('t', strtotime(date($default_date.'-01')));
+            $d = date('d') + $def + $jumlah_hari_sebelumnya;
+        } else {
+            $d = date('d') + $def;
+        }
+
         // dd(date('Y-m-d', strtotime('-'.$d.' days')));
 
         $diffday = 0;
@@ -134,11 +154,13 @@ class HomeController extends Controller
             $tanggal = $r_tanggal['tanggal'];
 
             $title = $description = $start_datetime = $start_date = $end_datetime = $end_date = $id_room = null;
+            $id_jadwal = 0;
             if(!empty($dt_jadwal)){
                 foreach($dt_jadwal as $row){
                     $date_start = date("Y-m-d", strtotime($row->start_datetime));
                     $date_end = date("Y-m-d", strtotime($row->end_datetime));
                     if($tanggal >= $date_start && $tanggal <=  $date_end){
+                        $id_jadwal = $row->id;
                         $title = $row->title;
                         $description = $row->description;
                         $start_date = $date_start;
@@ -154,8 +176,10 @@ class HomeController extends Controller
                 'title'         => $title,
                 'description'   => $description,
                 'hari'          => date('D', strtotime($tanggal)),
-                'date'          => date('d', strtotime($tanggal))
+                'date'          => date('d', strtotime($tanggal)),
+                'id_jadwal'     => $id_jadwal
             ];
+
         }
 
         // dd($dt_date_permonth);
@@ -169,25 +193,64 @@ class HomeController extends Controller
 
     public static function ajax_pcs_jadwal(Request $request)
     {
-        if($request->ajax()) {
-
-            $validator = Validator::make($request->all(), [
+        if($request->ajax()) {    
+            $validator = Validator::make($request->all(), 
+            [
                 'id_room'   => 'required',
                 'tanggal'   => 'required',
                 'deskripsi' => 'required'
+            ], 
+            [
+                'required' => ':attribute'
+            ], 
+            [
+                'id_room'   => 'Ruangan tidak terdeteksi!',
+                'tanggal'   => 'Tanggal tidak terdeteksi!',
+                'deskripsi' => 'Deskripsi harus diisi!'
             ]);
 
-            if($validator->fails()) return response()->json(implode(',',$validator->errors()->all()), 422);
+            if($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => implode(',',$validator->errors()->all())
+                ]);
+                
+            } else {
+                try {
+                    Home::insert_jadwal([
+                        'deskripsi' => $request->post('deskripsi'),
+                        'id_room'   => $request->post('id_room'),
+                        'tanggal'   => $request->post('tanggal')
+                    ]);
 
-            Home::insert_jadwal(
-                [
-                    'deskripsi' => $request->deskripsi,
-                    'id_room'   => $request->id_room,
-                    'tanggal'   => $request->tanggal
-                ]
-            );
-
-            return response()->json(['success' => TRUE, 'message'  => 'Data master kendaraan berhasil disimpan']);
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Berhasil mendambahkan schedule!'
+                    ]);
+                } catch (\Throwable $th) {
+                    
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'Terjadi kesalahan saat mendambahkan schedule!'
+                    ]);
+                }
+            } 
         }
     }
+
+    public function ajax_del_jadwal(Request $request)
+    {
+        if($request->ajax()) {
+
+            Home::delete_jadwal([
+                'id'    => $request->id
+            ]);
+
+            return response()->json([
+                'success'   => TRUE,
+                'message'   => 'Jadwal berhasil dihapus'
+            ]);
+        }
+    }
+
 }

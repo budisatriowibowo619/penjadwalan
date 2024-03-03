@@ -24,6 +24,29 @@
 
         <div class="room-title">
             <h1>{{ $room->nama_ruangan; }}</h1>
+            <form action="/detail/{{ $room->id; }}" method="GET">
+                <select name="bulan" id="bulan">
+                    <option value="">Pilih Bulan</option>
+                    <option value="01" {{ (date('m') == 1) ? 'selected' : '' }}>Januari</option>
+                    <option value="02" {{ (date('m') == 2) ? 'selected' : '' }}>Februari</option>
+                    <option value="03" {{ (date('m') == 3) ? 'selected' : '' }}>Maret</option>
+                    <option value="04" {{ (date('m') == 4) ? 'selected' : '' }}>April</option>
+                    <option value="05" {{ (date('m') == 5) ? 'selected' : '' }}>Mei</option>
+                    <option value="06" {{ (date('m') == 6) ? 'selected' : '' }}>Juni</option>
+                    <option value="07" {{ (date('m') == 7) ? 'selected' : '' }}>Juli</option>
+                    <option value="08" {{ (date('m') == 8) ? 'selected' : '' }}>Agustus</option>
+                    <option value="09" {{ (date('m') == 9) ? 'selected' : '' }}>September</option>
+                    <option value="10" {{ (date('m') == 10) ? 'selected' : '' }}>Oktober</option>
+                    <option value="11" {{ (date('m') == 11) ? 'selected' : '' }}>November</option>
+                    <option value="12" {{ (date('m') == 12) ? 'selected' : '' }}>Desember</option>
+                </select>
+                <select name="tahun" id="tahun">
+                    @for ($i = 2014; $i <= date('Y')+2; $i++)
+                        <option value="{{ $i }}" {{ ($i==date('Y') ? "selected" : "") }}>{{ $i }}</option>
+                    @endfor
+                </select>
+                <button>GO</button>
+            </form>
         </div>
 
         <div class="calendar">
@@ -46,7 +69,19 @@
                         <tr>
                             @foreach($kal as $row)
                                 @if(empty($row['title']))
-                                    <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                    @if($row['hari'] == "Sun") 
+                                        @if($row['tanggal'] ==  date('Y-m-d'))
+                                            <td valign="top" width="140px" style="text-align: right; border: 6px solid red; color:black; font-size : 20px;">
+                                        @else
+                                            <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                        @endif
+                                    @else
+                                        @if($row['tanggal'] ==  date('Y-m-d'))
+                                        <td valign="top" width="140px" style="text-align: right; border: 6x solid black; color:black; font-size : 20px;">
+                                        @else
+                                        <td valign="top" width="140px" style="text-align: right; border: 2px solid black; color:black; font-size : 20px;">
+                                        @endif
+                                    @endif
                                         {{ $row['date']; }}
                                         <a href="#" data-toggle="modal" data-tanggal="{{ $row['tanggal']; }}" data-target="#exampleModal" class="button-tanggal">
                                             <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
@@ -54,12 +89,27 @@
                                             </div>
                                         </a>
                                 @else
-                                    <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 2px solid red; color:white; font-size : 20px;">
+                                    @if($row['hari'] == "Sun")
+                                        @if($row['tanggal'] ==  date('Y-m-d'))
+                                            <td valign="top" width="140px" style="background-color:red ; text-align: right; border: 6px solid #853435; color:WHITE; font-size : 20px;">
+                                        @else
+                                            <td valign="top" width="140px" style="background-color:red ; text-align: right; border: 2px solid #853435; color:white; font-size : 20px;">
+                                        @endif
+                                    @else
+                                        @if($row['tanggal'] ==  date('Y-m-d'))
+                                        <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 6px solid black; color:white; font-size : 20px;">
+                                        @else
+                                        <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 2px solid black; color:white; font-size : 20px;">
+                                        @endif
+                                    @endif
                                         {{ $row['date']; }}
-                                        <br>
-                                        <p style="font-size:14px;text-align:left;">
-                                        {{ $row['title'] }}
-                                        </p>
+                                        <a href="#" onclick="hapusJadwal({{ $row['id_jadwal']; }})" class="button-tanggal" style="color:#ffffff">
+                                            <div style="padding-top:0px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
+                                                <p style="font-size:14px;text-align:left;">
+                                                {{ $row['title'] }}
+                                                </p>
+                                            </div>
+                                        </a>
                                 @endif
                                     </td>
                             @endforeach
@@ -76,6 +126,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('/detail.js') }}"></script>
 
 <!-- Modal -->
@@ -91,7 +142,7 @@
             <form action="#" id="formJadwal" method="POST" class="form-validate is-alter">
                 <div class="modal-body">
                     <input type="hidden" name="tanggal" id="idTanggal">
-                    <input type="hidden" nama="id_room" value="{{ $room->id; }}">
+                    <input type="hidden" name="id_room" value="{{ $room->id; }}">
                     <div class="form-group">
                         <label for="" style="padding-bottom:6px;">Dekripsi</label>
                         <textarea name="deskripsi" class="form-control" rows="4"></textarea>

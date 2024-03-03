@@ -33,10 +33,16 @@ class Home
     public static function insert_jadwal($params = [])
     {
         DB::table('schedules')->insert([
-            'title'         => $request->deskripsi,
-            'id_room'       => $request->id_room,
-            'start_datetime'=> $request->tanggal.' 00:00:00',
-            'end_datetime'  => $request->tanggal.' 00:00:00',
+            'title'         => $params['deskripsi'],
+            'id_room'       => $params['id_room'],
+            'start_datetime'=> $params['tanggal'].' 00:00:00',
+            'end_datetime'  => $params['tanggal'].' 00:00:00',
         ]);
     }
+
+    public static function delete_jadwal($params = [])
+    {
+        DB::table('schedules')->where('id', $params['id'])->update(['status' => 0]);
+    }
+
 }

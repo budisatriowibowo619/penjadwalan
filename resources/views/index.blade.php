@@ -29,27 +29,29 @@
                     @foreach(collect($kalender)->chunk(7) as $kal)
 
                         <th width="300px">
-                            <select name="bulan" id="bulan">
-                                <option value="">Pilih Bulan</option>
-                                <option value="1" {{ (date('m') == 1) ? 'selected' : '' }}>Januari</option>
-                                <option value="2" {{ (date('m') == 2) ? 'selected' : '' }}>Februari</option>
-                                <option value="3" {{ (date('m') == 3) ? 'selected' : '' }}>Maret</option>
-                                <option value="4" {{ (date('m') == 4) ? 'selected' : '' }}>April</option>
-                                <option value="5" {{ (date('m') == 5) ? 'selected' : '' }}>Mei</option>
-                                <option value="6" {{ (date('m') == 6) ? 'selected' : '' }}>Juni</option>
-                                <option value="7" {{ (date('m') == 7) ? 'selected' : '' }}>Juli</option>
-                                <option value="8" {{ (date('m') == 8) ? 'selected' : '' }}>Agustus</option>
-                                <option value="9" {{ (date('m') == 9) ? 'selected' : '' }}>September</option>
-                                <option value="10" {{ (date('m') == 10) ? 'selected' : '' }}>Oktober</option>
-                                <option value="11" {{ (date('m') == 11) ? 'selected' : '' }}>November</option>
-                                <option value="12" {{ (date('m') == 12) ? 'selected' : '' }}>Desember</option>
-                            </select>
-                            <select name="tahun" id="tahun">
-                                @for ($i = 2014; $i <= date('Y')+2; $i++)
-                                    <option value="{{ $i }}" {{ ($i==date('Y') ? "selected" : "") }}>{{ $i }}</option>
-                                @endfor
-                            </select>
-                            <button>GO</button>
+                            <form action="/" method="GET">
+                                <select name="bulan" id="bulan">
+                                    <option value="">Pilih Bulan</option>
+                                    <option value="01" {{ (date('m') == 1) ? 'selected' : '' }}>Januari</option>
+                                    <option value="02" {{ (date('m') == 2) ? 'selected' : '' }}>Februari</option>
+                                    <option value="03" {{ (date('m') == 3) ? 'selected' : '' }}>Maret</option>
+                                    <option value="04" {{ (date('m') == 4) ? 'selected' : '' }}>April</option>
+                                    <option value="05" {{ (date('m') == 5) ? 'selected' : '' }}>Mei</option>
+                                    <option value="06" {{ (date('m') == 6) ? 'selected' : '' }}>Juni</option>
+                                    <option value="07" {{ (date('m') == 7) ? 'selected' : '' }}>Juli</option>
+                                    <option value="08" {{ (date('m') == 8) ? 'selected' : '' }}>Agustus</option>
+                                    <option value="09" {{ (date('m') == 9) ? 'selected' : '' }}>September</option>
+                                    <option value="10" {{ (date('m') == 10) ? 'selected' : '' }}>Oktober</option>
+                                    <option value="11" {{ (date('m') == 11) ? 'selected' : '' }}>November</option>
+                                    <option value="12" {{ (date('m') == 12) ? 'selected' : '' }}>Desember</option>
+                                </select>
+                                <select name="tahun" id="tahun">
+                                    @for ($i = 2014; $i <= date('Y')+2; $i++)
+                                        <option value="{{ $i }}" {{ ($i==date('Y') ? "selected" : "") }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <button>GO</button>
+                            </form>
                         </th>
 
                         @foreach($kal as $k)
@@ -72,7 +74,7 @@
 
                     <td style="border: 2px solid black;text-align:center;">
                         <a href="detail/{{ $row->id }}">
-                            <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
+                            <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;color:black;">
                                 {{ $row->nama_ruangan }}
                             </div>
                         </a>
