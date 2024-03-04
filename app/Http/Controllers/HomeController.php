@@ -160,21 +160,25 @@ class HomeController extends Controller
 
                     $d = date('d') + $def + $jumlah_hari_sebelumnya - 1;
                     } else {
-                        $startTimeStamp = date('Y-m-d',strtotime(date('Y-m-t', strtotime(date($default_date.'-01')))));
-                        dd($startTimeStamp);
+                        $startTimeStamp = strtotime(date('Y-m-01', strtotime(date($default_date.'-01'))));
+                        // dd($startTimeStamp);
                         $datestring= date('Y-m-d');
                         $dt = date_create($datestring);
                         $endTimeStamp = strtotime($dt->format('Y-m-d'));
+
+                        // dd($endTimeStamp);
 
                         $timeDiff = abs($startTimeStamp - $endTimeStamp);
 
                         $numberDays = $timeDiff/86400;  // 86400 seconds in one day
 
+                        // dd($numberDays);
+
                         // and you might want to convert to integer
-                        $numberDays = intval($numberDays) + 3;
+                        $numberDays = intval($numberDays);
                         $jumlah_hari_selanjutnya = $numberDays;
                         
-                        $d = date('d') + $def + $jumlah_hari_selanjutnya -  1;
+                        $d = $def + $jumlah_hari_selanjutnya -  2;
                     }
                 }
             } else {
@@ -191,20 +195,37 @@ class HomeController extends Controller
         $defi = 0;
         // dd($def);
         $sale_data = array();
-        $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
         // dd($now);
 
         if($def == 0){
             $diffday = 0; 
         } else if ($def == 1){
-            $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+            if($request->bulan < date('m')) {
+                $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+            } else {
+                $now = new DateTime(date('Y-m-d', strtotime('+'.($d).' days')));
+            }
             $sale_data[] = [
                 'tanggal'   => $now->format('Y-m-d')
             ];
         } else {
             $diffday = '-'.$d;
             $defi = $def -1;
-            $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+
+            // $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+            if($request->bulan < date('m')) {
+                $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+            } else {
+                if($request->tahun == date('Y')){
+                    if($request->bulan != date('m')){
+                        $now = new DateTime(date('Y-m-d', strtotime('+'.($d).' days')));
+                    } else {
+                        $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+                    }
+                } else {
+                    $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
+                }
+            }
             // dd($now);
             $interval = new DateInterval( 'P1D'); // 1 Day interval
             $period = new DatePeriod( $now, $interval, ($defi)); // 7 Days
@@ -217,7 +238,7 @@ class HomeController extends Controller
             }
         }
 
-        // dd($diffday);
+        // dd($sale_data);
 
         $merge_tanggal = array_merge($sale_data, $arr_tanggal);
 
