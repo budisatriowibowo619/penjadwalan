@@ -46,7 +46,7 @@
                                     <option value="12" {{ ($bulan_filter == 12) ? 'selected' : '' }}>Desember</option>
                                 </select>
                                 <select name="tahun" id="tahun">
-                                    @for ($i = 2014; $i <= date('Y')+2; $i++)
+                                    @for ($i = 2020; $i <= date('Y')+2; $i++)
                                         <option value="{{ $i }}" {{ ($i==$tahun_filter ? "selected" : "") }}>{{ $i }}</option>
                                     @endfor
                                 </select>
