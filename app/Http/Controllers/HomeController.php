@@ -22,9 +22,13 @@ class HomeController extends Controller
         $dt_jadwal = Home::all();
 
         $default_date = 'Y-m';
+        $bulan_filter = date('m');
+        $tahun_filter = date('Y');
         if(!empty($request->bulan))
         {
             $default_date = $request->tahun.'-'.$request->bulan;
+            $bulan_filter = $request->bulan;
+            $tahun_filter = $request->tahun;
         }
 
         for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
@@ -72,7 +76,9 @@ class HomeController extends Controller
             'js_script' => '/js/home.js',
             'jadwal'    => $dt_date_permonth,
             'data'      => Home::gt_ms_room() ,
-            'kalender'  => $arr_tanggal
+            'kalender'  => $arr_tanggal,
+            'bulan_filter'  => $bulan_filter,
+            'tahun_filter'  => $tahun_filter
         ]);
     }
 
@@ -82,9 +88,13 @@ class HomeController extends Controller
         $dt_tanggal = [];
 
         $default_date = 'Y-m';
+        $bulan_filter = date('m');
+        $tahun_filter = date('Y');
         if(!empty($request->bulan))
         {
             $default_date = $request->tahun.'-'.$request->bulan;
+            $bulan_filter = $request->bulan;
+            $tahun_filter = $request->tahun;
         }
 
         for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
@@ -117,30 +127,57 @@ class HomeController extends Controller
             $jumlah_hari_sebelumnya = date('t', strtotime(date($default_date.'-01')));
             $d = date('d') + $def + $jumlah_hari_sebelumnya;
         } else {
-            $d = date('d') + $def;
+            $d = $def;
         }
 
         // dd(date('Y-m-d', strtotime('-'.$d.' days')));
-
         $diffday = 0;
+        $defi = 0;
+        // dd($def);
         if($def == 0){
             $diffday = 0; 
+            $defi = $def - 1;
+        } else if($def == 1){
+            $diffday = '-'.($d-2);
+            $defi = $def;
         } else {
             $diffday = '-'.$d;
+            $defi = $def - 1;
         }
 
-        // $now = new DateTime( "7 days ago", new DateTimeZone('America/New_York'));
-        $now = new DateTime(date('Y-m-d', strtotime(($diffday+1).' days')));
-        // dd($now);
-        $interval = new DateInterval( 'P1D'); // 1 Day interval
-        $period = new DatePeriod( $now, $interval, ($def-1)); // 7 Days
-
+        // dd($diffday);
         $sale_data = array();
-        foreach( $period as $day) {
-            $key = $day->format( 'Y-m-d');
+        if($defi == 1){
+            
+            
+            $now = new DateTime(date('Y-m-d', strtotime(($diffday+1).' days')));
+            // dd($now);
             $sale_data[] = [
-                'tanggal'   => $key
+                'tanggal'   => $now->format('Y-m-d')
             ];
+
+        } else {
+
+            // $now = new DateTime( "7 days ago", new DateTimeZone('America/New_York'));
+            if($bulan_filter > date('m') && $tahun_filter >= date('Y')){
+                $now = new DateTime(date('Y-m-d', strtotime(($diffday+2).' days')));
+            } else {
+                if($tahun_filter < date('Y')){
+                    $now = new DateTime(date('Y-m-d', strtotime(($diffday+2).' days')));
+                } else {
+                    $now = new DateTime(date('Y-m-d', strtotime(($diffday+1).' days')));
+                }
+            }
+            // dd($now);
+            $interval = new DateInterval( 'P1D'); // 1 Day interval
+            $period = new DatePeriod( $now, $interval, ($defi)); // 7 Days
+
+            foreach( $period as $day) {
+                $key = $day->format( 'Y-m-d');
+                $sale_data[] = [
+                    'tanggal'   => $key
+                ];
+            }
         }
 
         $merge_tanggal = array_merge($sale_data, $arr_tanggal);
@@ -188,6 +225,8 @@ class HomeController extends Controller
             'kalender'  => $dt_date_permonth,
             'def'       => $def,
             'room'      => Home::gt_ms_room($request->id),
+            'bulan_filter'  => $bulan_filter,
+            'tahun_filter'  => $tahun_filter
         ]);
     }
 
