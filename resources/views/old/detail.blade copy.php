@@ -23,26 +23,26 @@
     <div class="container">
 
         <div class="room-title">
-            <h1>{{ $room->nama_ruangan; }}</h1>
-            <form action="/detail/{{ $room->id; }}" method="GET">
+            <h1>{{ $room->room; }}</h1>
+            <form action="/pageRoom/{{ $room->id; }}" method="GET">
                 <select name="bulan" id="bulan">
                     <option value="">Pilih Bulan</option>
-                    <option value="01" {{ ($bulan_filter == 1) ? 'selected' : '' }}>Januari</option>
-                    <option value="02" {{ ($bulan_filter == 2) ? 'selected' : '' }}>Februari</option>
-                    <option value="03" {{ ($bulan_filter == 3) ? 'selected' : '' }}>Maret</option>
-                    <option value="04" {{ ($bulan_filter == 4) ? 'selected' : '' }}>April</option>
-                    <option value="05" {{ ($bulan_filter == 5) ? 'selected' : '' }}>Mei</option>
-                    <option value="06" {{ ($bulan_filter == 6) ? 'selected' : '' }}>Juni</option>
-                    <option value="07" {{ ($bulan_filter == 7) ? 'selected' : '' }}>Juli</option>
-                    <option value="08" {{ ($bulan_filter == 8) ? 'selected' : '' }}>Agustus</option>
-                    <option value="09" {{ ($bulan_filter == 9) ? 'selected' : '' }}>September</option>
-                    <option value="10" {{ ($bulan_filter == 10) ? 'selected' : '' }}>Oktober</option>
-                    <option value="11" {{ ($bulan_filter == 11) ? 'selected' : '' }}>November</option>
-                    <option value="12" {{ ($bulan_filter == 12) ? 'selected' : '' }}>Desember</option>
+                    <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>
+                    <option value="02" {{ ($month_filter == 2) ? 'selected' : '' }}>Februari</option>
+                    <option value="03" {{ ($month_filter == 3) ? 'selected' : '' }}>Maret</option>
+                    <option value="04" {{ ($month_filter == 4) ? 'selected' : '' }}>April</option>
+                    <option value="05" {{ ($month_filter == 5) ? 'selected' : '' }}>Mei</option>
+                    <option value="06" {{ ($month_filter == 6) ? 'selected' : '' }}>Juni</option>
+                    <option value="07" {{ ($month_filter == 7) ? 'selected' : '' }}>Juli</option>
+                    <option value="08" {{ ($month_filter == 8) ? 'selected' : '' }}>Agustus</option>
+                    <option value="09" {{ ($month_filter == 9) ? 'selected' : '' }}>September</option>
+                    <option value="10" {{ ($month_filter == 10) ? 'selected' : '' }}>Oktober</option>
+                    <option value="11" {{ ($month_filter == 11) ? 'selected' : '' }}>November</option>
+                    <option value="12" {{ ($month_filter == 12) ? 'selected' : '' }}>Desember</option>
                 </select>
                 <select name="tahun" id="tahun">
                     @for ($i = 2020; $i <= date('Y')+2; $i++)
-                        <option value="{{ $i }}" {{ ($i==$tahun_filter ? "selected" : "") }}>{{ $i }}</option>
+                        <option value="{{ $i }}" {{ ($i==$year_filter ? "selected" : "") }}>{{ $i }}</option>
                     @endfor
                 </select>
                 <button>GO</button>
@@ -106,7 +106,7 @@
                                         <a href="#" onclick="hapusJadwal({{ $row['id_jadwal']; }})" class="button-tanggal" style="color:#ffffff">
                                             <div style="padding-top:0px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
                                                 <p style="font-size:14px;text-align:left;">
-                                                {{ $row['title'] }}
+                                                {{ $row['description'] }}
                                                 </p>
                                             </div>
                                         </a>
@@ -143,6 +143,22 @@
                 <div class="modal-body">
                     <input type="hidden" name="tanggal" id="idTanggal">
                     <input type="hidden" name="id_room" value="{{ $room->id; }}">
+                    <div class="form-group">
+                        <label for="" style="padding-bottom:6px;">Nama Klien</label>
+                        <input type="text" name="klien" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="" style="padding-bottom:6px;">Jam Mulai</label>
+                                <input type="time" name="jam_mulai" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" style="padding-bottom:6px;">Jam Selesai</label>
+                                <input type="time" name="jam_selesai" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="" style="padding-bottom:6px;">Dekripsi</label>
                         <textarea name="deskripsi" class="form-control" rows="4"></textarea>
