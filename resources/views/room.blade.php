@@ -24,7 +24,7 @@
 
         <div class="room-title">
             <h1>{{ $room->room; }}</h1>
-            <form action="/pageRoom/{{ $room->id; }}" method="GET">
+            <form action="/pageRoom/{{ $room->slug; }}" method="GET">
                 <select name="bulan" id="bulan">
                     <option value="">Pilih Bulan</option>
                     <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>

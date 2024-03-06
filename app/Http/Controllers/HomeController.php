@@ -46,11 +46,13 @@ class HomeController extends Controller
             $year_filter = $request->tahun;
         }
 
-        $gt_date_and_schedules_by_room = Schedule::gt_date_and_schedules_by_room($default_date, $request->id, $month_filter, $year_filter);
+        $get_room_by_slug = Room::where(['slug' => $request->slug])->first();
+
+        $gt_date_and_schedules_by_room = Schedule::gt_date_and_schedules_by_room($default_date, $get_room_by_slug->id, $month_filter, $year_filter);
 
         return view('room', [
             'kalender'      => $gt_date_and_schedules_by_room,
-            'room'          => Room::where(['id' => $request->id])->first(),
+            'room'          => $get_room_by_slug,
             'month_filter'  => $month_filter,
             'year_filter'   => $year_filter
         ]);

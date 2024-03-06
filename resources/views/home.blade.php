@@ -28,7 +28,7 @@
                 <tr>
                     @foreach(collect($jadwal)->chunk(7) as $kal)
 
-                        <th width="300px">
+                        <th width="400px">
                             <form action="/" method="GET">
                                 <select name="bulan" id="bulan">
                                     <option value="">Pilih Bulan</option>
@@ -72,7 +72,7 @@
                     @foreach (collect($jadwal)->chunk(7) as $jadwalx)
 
                     <td style="border: 2px solid black;text-align:center;">
-                        <a href="pageRoom/{{ $row->id }}">
+                        <a href="pageRoom/{{ $row->slug }}">
                             <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;color:black;">
                                 {{ $row->room; }}
                             </div>

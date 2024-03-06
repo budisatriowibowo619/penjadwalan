@@ -17,6 +17,6 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'page_calendar']);
 Route::get('/pageCalendar', [HomeController::class, 'page_calendar']);
 
-Route::get('/pageRoom/{id}', [HomeController::class, 'page_room']);
+Route::get('/pageRoom/{slug}', [HomeController::class, 'page_room']);
 Route::post('/processJadwal', [HomeController::class, 'ajax_pcs_jadwal']); // Proses Master Kendaraan
 Route::get('/deleteJadwal', [HomeController::class, 'ajax_del_jadwal']);

@@ -26,3 +26,17 @@ th {
 td {
     height: 100px;
 }
+
+.arrow-button {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    margin: 4px 2px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
