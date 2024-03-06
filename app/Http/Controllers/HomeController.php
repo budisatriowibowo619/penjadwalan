@@ -113,4 +113,23 @@ class HomeController extends Controller
         }
     }
 
+    public static function ajax_del_jadwal(Request $request)
+    {
+        if($request->ajax()) {
+
+            Schedule::updateOrCreate(
+                [
+                    'id'        => $request->id
+                ],
+                [
+                    'status'    => 0
+                ]);
+
+            return response()->json([
+                'success'   => TRUE,
+                'message'   => 'Jadwal berhasil dihapus'
+            ]);
+        }
+    }
+
 }

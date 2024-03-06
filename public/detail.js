@@ -56,7 +56,13 @@ $(document).ready(function () {
 $(document).on("click", ".button-tanggal", function () {
     var tanggal = $(this).data('tanggal');
     $(".modal-body #idTanggal").val( tanggal );
-    $('#exampleModalLabel').html('Tambah data tanggal '+tanggal);
+    // $('#exampleModalLabel').html('Tambah data tanggal '+tanggal);
+    var mydate = new Date(tanggal);
+    var month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"][mydate.getMonth()];
+    var date = mydate.getDate();
+    var str = date + ' ' + month + ' ' + mydate.getFullYear();
+    $("#inputTanggal").val(str);
 });
 
 const hapusJadwal = (id) => {

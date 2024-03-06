@@ -71,15 +71,15 @@
                                 @if(empty($row['description']))
                                     @if($row['hari'] == "Sun") 
                                         @if($row['tanggal'] ==  date('Y-m-d'))
-                                            <td valign="top" width="140px" style="text-align: right; border: 6px solid red; color:black; font-size : 20px;">
+                                            <td valign="top" width="150px" style="text-align: right; border: 6px solid red; color:black; font-size : 20px;">
                                         @else
-                                            <td valign="top" width="140px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
+                                            <td valign="top" width="150px" style="text-align: right; border: 2px solid red; color:black; font-size : 20px;">
                                         @endif
                                     @else
                                         @if($row['tanggal'] ==  date('Y-m-d'))
-                                        <td valign="top" width="140px" style="text-align: right; border: 6px solid black !important; color:black; font-size : 20px;">
+                                        <td valign="top" width="150px" style="text-align: right; border: 6px solid black !important; color:black; font-size : 20px;">
                                         @else
-                                        <td valign="top" width="140px" style="text-align: right; border: 2px solid black; color:black; font-size : 20px;">
+                                        <td valign="top" width="150px" style="text-align: right; border: 2px solid black; color:black; font-size : 20px;">
                                         @endif
                                     @endif
                                         {{ $row['date']; }}
@@ -91,15 +91,15 @@
                                 @else
                                     @if($row['hari'] == "Sun")
                                         @if($row['tanggal'] ==  date('Y-m-d'))
-                                            <td valign="top" width="140px" style="background-color:red ; text-align: right; border: 6px solid #853435; color:WHITE; font-size : 20px;">
+                                            <td valign="top" width="150px" style="background-color:red ; text-align: right; border: 6px solid #853435; color:WHITE; font-size : 20px;">
                                         @else
-                                            <td valign="top" width="140px" style="background-color:red ; text-align: right; border: 2px solid red; color:white; font-size : 20px;">
+                                            <td valign="top" width="150px" style="background-color:red ; text-align: right; border: 2px solid red; color:white; font-size : 20px;">
                                         @endif
                                     @else
                                         @if($row['tanggal'] ==  date('Y-m-d'))
-                                        <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 6px solid black; color:white; font-size : 20px;">
+                                        <td valign="top" width="150px" style="background-color:#e4b236 ; text-align: right; border: 6px solid black; color:white; font-size : 20px;">
                                         @else
-                                        <td valign="top" width="140px" style="background-color:#e4b236 ; text-align: right; border: 2px solid black; color:white; font-size : 20px;">
+                                        <td valign="top" width="150px" style="background-color:#e4b236 ; text-align: right; border: 2px solid black; color:white; font-size : 20px;">
                                         @endif
                                     @endif
                                         {{ $row['date']; }}
@@ -140,7 +140,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <h5 class="modal-title" id="exampleModalLabel">Form Data Jadwal</h5>
                 {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> --}}
@@ -150,8 +150,12 @@
                     <input type="hidden" name="tanggal" id="idTanggal">
                     <input type="hidden" name="id_room" value="{{ $room->id; }}">
                     <div class="form-group">
+                        <label for="" style="padding-bottom:6px;">Tanggal</label>
+                        <input type="text" name="tgl" id="inputTanggal" class="form-control" required disabled>
+                    </div>
+                    <div class="form-group">
                         <label for="" style="padding-bottom:6px;">Nama Klien</label>
-                        <input type="text" name="klien" class="form-control">
+                        <input type="text" name="klien" class="form-control" placeholder="Nama Klien" required>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -167,7 +171,7 @@
                     </div>
                     <div class="form-group">
                         <label for="" style="padding-bottom:6px;">Dekripsi</label>
-                        <textarea name="deskripsi" class="form-control" rows="4"></textarea>
+                        <textarea name="deskripsi" class="form-control" rows="4" placeholder="Deskripsi" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

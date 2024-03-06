@@ -37,3 +37,11 @@ table {
 .table-calendar td {
     height: 150px;
 }
+
+.form-group{
+    margin-bottom: 1rem;
+}
+
+.form-group label{
+    font-weight: 500;
+}

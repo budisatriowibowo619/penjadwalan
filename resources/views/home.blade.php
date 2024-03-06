@@ -20,7 +20,7 @@
 <body>
     
     <div class="tableFixHead">
-    <table border="2" width="5000px">
+    <table border="0" width="5500px">
        
         @foreach($data->chunk(3) as $datax)
 
@@ -30,6 +30,7 @@
 
                         <th width="400px">
                             <form action="/" method="GET">
+                                <button class="arrow-button"><</button>
                                 <select name="bulan" id="bulan">
                                     <option value="">Pilih Bulan</option>
                                     <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>
@@ -56,9 +57,9 @@
 
                         @foreach($kal as $k)
                             @if ($k['hari'] == "Sun")
-                                <th width="140px" style="text-align: right;border: 1px solid red;color:red;">{{ $k['date'] }}</th>
+                                <th width="150px" style="background-color:red; text-align: right;border: 1px solid red;color:white; padding-right:5px;">{{ $k['date'] }}</th>
                             @else
-                                <th width="140px" style="text-align: right;">{{ $k['date'] }}</th>
+                                <th width="150px" style="text-align: right; padding-right:5px;">{{ $k['date'] }}</th>
                             @endif
                         @endforeach
 
@@ -82,7 +83,7 @@
                     @foreach ($jadwalx as $row1)
                         @if ( $row1['hari'] == "Sun")
                             @if ( date('d') == $row1['date'])
-                                <td width="140px" style="text-align: left;border: 2px solid red;color:red;background-color: red; font-size : 11px; color:white;">
+                                <td width="150px" style="text-align: left;border: 2px solid red;color:red;background-color: red; font-size : 11px; color:white;">
                                     @if ( $row->id == $row1['id_room'] )
                                     <b>{{ $row1['client'] }}</b>
                                     <br>
@@ -96,7 +97,7 @@
                                     @endif
                                 </td>
                             @else
-                                <td width="140px" style="text-align: left;border: 2px solid red;color:red;font-size : 11px;">
+                                <td width="150px" style="text-align: left;border: 2px solid red;color:red;font-size : 11px;">
                                     @if ( $row->id == $row1['id_room'] )
                                     <b>{{ $row1['client'] }}</b>
                                     <br>
@@ -112,7 +113,7 @@
                             @endif                
                         @else
                             @if ( date('d') == $row1['date'])
-                                <td width="140px" style="text-align: left; border: 2px solid black; background-color: blue; font-size : 11px; color:white;">
+                                <td width="150px" style="text-align: left; border: 2px solid black; background-color: blue; font-size : 11px; color:white;">
                                     @if ( $row->id == $row1['id_room'] )
                                         <b>{{ $row1['client'] }}</b>
                                         <br>
@@ -127,7 +128,7 @@
                                 </td>
                             @else
                                 @if (!empty($row1['description']))
-                                    <td width="140px" style="border: 2px solid black; text-align: left;background-color:#e4b236; font-size : 11px; color:white;">
+                                    <td width="150px" style="border: 2px solid black; text-align: left;background-color:#e4b236; font-size : 11px; color:white;">
                                         @if ( $row->id == $row1['id_room'] )
                                         <b>{{ $row1['client'] }}</b>
                                         <br>
@@ -141,7 +142,7 @@
                                         @endif
                                     </td>
                                 @else
-                                    <td width="140px" style="text-align: left; border: 2px solid black;"></td>
+                                    <td width="150px" style="text-align: left; border: 2px solid black;"></td>
                                 @endif
                             @endif      
                         @endif

@@ -12,8 +12,9 @@ table {
 
 th {
     /* width: 100px; */
-    height: 40px;
-    font-size: 20px;
+    height: 46px;
+    font-size: 23px;
+    font-weight: 600;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
@@ -31,7 +32,7 @@ td {
     background-color: black;
     border: none;
     color: white;
-    padding: 10px 10px;
+    /* padding: 10px 10px; */
     text-align: center;
     text-decoration: none;
     display: inline-block;
