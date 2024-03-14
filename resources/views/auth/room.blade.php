@@ -25,7 +25,7 @@
         <div class="room-title">
             <div class="row">
                 <div class="col-md-4">
-                    <a href="/pageLogin" class="btn btn-light" style="color:black;">Login</a>
+                    <a href="/logout" class="btn btn-warning" style="color:black;">Logout</a>
                 </div>
                 <div class="col-md-4">
                     <h1>{{ $room->room; }}</h1>
@@ -91,9 +91,11 @@
                                         @endif
                                     @endif
                                         {{ $row['date']; }}
+                                        <a href="#" data-toggle="modal" data-tanggal="{{ $row['tanggal']; }}" data-target="#exampleModal" class="button-tanggal">
                                             <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
                                                 
                                             </div>
+                                        </a>
                                 @else
                                     @if($row['hari'] == "Sun")
                                         @if($row['tanggal'] ==  date('Y-m-d'))
@@ -109,6 +111,7 @@
                                         @endif
                                     @endif
                                         {{ $row['date']; }}
+                                        <a href="#" onclick="hapusJadwal({{ $row['id_jadwal']; }})" class="button-tanggal" style="color:#ffffff">
                                             <div style="padding-top:0px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;">
                                                 <p style="font-size:14px;text-align:left;">
                                                     <b>{{ $row['client'] }}</b>
@@ -120,6 +123,7 @@
                                                     {{ $row['jam_full'] }}
                                                 </p>
                                             </div>
+                                        </a>
                                 @endif
                                     </td>
                             @endforeach

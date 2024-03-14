@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Schedule;
 use App\Models\Room;
 
+use Auth;
+
 class HomeController extends Controller
 {
     
@@ -50,12 +52,21 @@ class HomeController extends Controller
 
         $gt_date_and_schedules_by_room = Schedule::gt_date_and_schedules_by_room($default_date, $get_room_by_slug->id, $month_filter, $year_filter);
 
-        return view('room', [
-            'kalender'      => $gt_date_and_schedules_by_room,
-            'room'          => $get_room_by_slug,
-            'month_filter'  => $month_filter,
-            'year_filter'   => $year_filter
-        ]);
+        if(Auth::check()){
+            return view('auth/room', [
+                'kalender'      => $gt_date_and_schedules_by_room,
+                'room'          => $get_room_by_slug,
+                'month_filter'  => $month_filter,
+                'year_filter'   => $year_filter
+            ]);
+        } else {
+            return view('room', [
+                'kalender'      => $gt_date_and_schedules_by_room,
+                'room'          => $get_room_by_slug,
+                'month_filter'  => $month_filter,
+                'year_filter'   => $year_filter
+            ]);
+        }
     }
 
     public static function ajax_pcs_jadwal(Request $request)

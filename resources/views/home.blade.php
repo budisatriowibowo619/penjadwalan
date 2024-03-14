@@ -30,7 +30,7 @@
 
                         <th width="400px">
                             <form action="/" method="GET">
-                                <button class="arrow-button"><</button>
+                                {{-- <button class="arrow-button"><</button> --}}
                                 <select name="bulan" id="bulan">
                                     <option value="">Pilih Bulan</option>
                                     <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>
