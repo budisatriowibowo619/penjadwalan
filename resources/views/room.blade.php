@@ -25,7 +25,7 @@
         <div class="room-title">
             <div class="row">
                 <div class="col-md-4">
-                    <a href="/pageLogin" class="btn btn-light" style="color:black;">Login</a>
+                    
                 </div>
                 <div class="col-md-4">
                     <h1>{{ $room->room; }}</h1>
@@ -53,7 +53,9 @@
                         <button>GO</button>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4" style="text-align:right !important;">
+                    <a href="/pageLogin" class="btn btn-light" style="color:black;">Login</a>
+                </div>
             </div>
         </div>
 

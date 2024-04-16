@@ -25,7 +25,6 @@
         <div class="room-title">
             <div class="row">
                 <div class="col-md-4">
-                    <a href="/logout" class="btn btn-warning" style="color:black;">Logout</a>
                 </div>
                 <div class="col-md-4">
                     <h1>{{ $room->room; }}</h1>
@@ -53,7 +52,9 @@
                         <button>GO</button>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4" style="text-align:right !important;">
+                    <a href="/logout" class="btn btn-danger" style="color:white;">Logout</a>
+                </div>
             </div>
         </div>
 
