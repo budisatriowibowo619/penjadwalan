@@ -24,16 +24,14 @@
        
         @foreach($data->chunk(3) as $datax)
 
-            {{-- <thead>
-                <a href="/pageLogin" class="button">Login</a>
-            </thead> --}}
             <thead>
                 <tr>
                     @foreach(collect($jadwal)->chunk(7) as $kal)
 
                         <th width="500px">
                             <form action="/" method="GET">
-                                <a href="/pageLogin" class="button">Login</a>
+                                {{-- <button class="arrow-button"><</button> --}}
+                                <a href="/logout" class="button-logout">Logout</a>
                                 <select name="bulan" id="bulan">
                                     <option value="">Pilih Bulan</option>
                                     <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>

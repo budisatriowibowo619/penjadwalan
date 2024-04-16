@@ -25,14 +25,25 @@ class HomeController extends Controller
 
         $gt_date_and_schedules = Schedule::gt_date_and_schedules($default_date);
 
-        return view('home', [
-            'page'          => 'Home',
-            'js_script'     => '/js/home.js',
-            'jadwal'        => $gt_date_and_schedules,
-            'data'          => Room::all(),
-            'month_filter'  => $month_filter,
-            'year_filter'   => $year_filter
-        ]);
+        if(Auth::check()){
+            return view('auth/home', [
+                'page'          => 'Home',
+                'js_script'     => '/js/home.js',
+                'jadwal'        => $gt_date_and_schedules,
+                'data'          => Room::all(),
+                'month_filter'  => $month_filter,
+                'year_filter'   => $year_filter
+            ]);
+        } else {
+            return view('home', [
+                'page'          => 'Home',
+                'js_script'     => '/js/home.js',
+                'jadwal'        => $gt_date_and_schedules,
+                'data'          => Room::all(),
+                'month_filter'  => $month_filter,
+                'year_filter'   => $year_filter
+            ]);
+        }
 
     }
 
@@ -105,8 +116,8 @@ class HomeController extends Controller
                         'description'   => $request->post('deskripsi'),
                         'date'          => $request->post('tanggal'),
                         'client'        => $request->post('klien'),
-                        'start_time'    => $request->post('jam_mulai'),
-                        'end_time'      => $request->post('jam_selesai')
+                        // 'start_time'    => $request->post('jam_mulai'),
+                        // 'end_time'      => $request->post('jam_selesai')
                     ]);
 
                     return response()->json([

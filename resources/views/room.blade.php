@@ -54,7 +54,7 @@
                     </form>
                 </div>
                 <div class="col-md-4" style="text-align:right !important;">
-                    <a href="/pageLogin" class="btn btn-light" style="color:black;">Login</a>
+                    {{-- <a href="/pageLogin" class="btn btn-light" style="color:black;">Login</a> --}}
                 </div>
             </div>
         </div>

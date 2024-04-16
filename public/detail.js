@@ -6,6 +6,9 @@ $(document).ready(function () {
     });
 
     $("#formJadwal").submit(function(event) {
+        $('#btnSimpan').html('...Menyimpan');
+        $('#btnSimpan').prop('disabled', true);
+        $('#btnClose').prop('disabled', true);
         event.preventDefault();
         let dataFormJadwal = new FormData($(this)[0]);
     

@@ -66,7 +66,8 @@ class Schedule extends Model
                         $description = $row->description;
                         $id_room = $row->id_room;
                         $tanggal_full = date("d", strtotime($row->date)).' '.static::convert_nama_bulan(date("m", strtotime($row->date))).' '.date("Y", strtotime($row->date));
-                        $jam_full = date("H:i", strtotime($row->start_time)).' s/d '.date('H:i', strtotime($row->end_time));
+                        // $jam_full = date("H:i", strtotime($row->start_time)).' s/d '.date('H:i', strtotime($row->end_time));
+                        $jam_full = 'Jam : '.date("H:i", strtotime($row->created_at));
                         $client = $row->client;
                     }
                 }
@@ -181,8 +182,11 @@ class Schedule extends Model
         } else if ($def == 1){
             if($month_filter < date('m')) {
                 $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
-            } else {
+            } else if ($month_filter > date('m')){
                 $now = new DateTime(date('Y-m-d', strtotime('+'.($d).' days')));
+            } else {
+                $d = date('d');
+                $now = new DateTime(date('Y-m-d', strtotime('-'.($d).' days')));
             }
             $sale_data[] = [
                 'tanggal'   => $now->format('Y-m-d')
@@ -232,7 +236,8 @@ class Schedule extends Model
                         $description = $row->description;
                         $id_room = $row->id_room;
                         $tanggal_full = date("d", strtotime($row->date)).' '.static::convert_nama_bulan(date("m", strtotime($row->date))).' '.date("Y", strtotime($row->date));
-                        $jam_full = date("H:i", strtotime($row->start_time)).' s/d '.date('H:i', strtotime($row->end_time));
+                        // $jam_full = date("H:i", strtotime($row->start_time)).' s/d '.date('H:i', strtotime($row->end_time));
+                        $jam_full = 'Jam : '.date("H:i", strtotime($row->created_at));
                         $client = $row->client;
                     }
                 }

@@ -53,7 +53,7 @@
                     </form>
                 </div>
                 <div class="col-md-4" style="text-align:right !important;">
-                    <a href="/logout" class="btn btn-danger" style="color:white;">Logout</a>
+                    {{-- <a href="/logout" class="btn btn-danger" style="color:white;">Logout</a> --}}
                 </div>
             </div>
         </div>
@@ -163,10 +163,10 @@
                         <input type="text" name="tgl" id="inputTanggal" class="form-control" required disabled>
                     </div>
                     <div class="form-group">
-                        <label for="" style="padding-bottom:6px;">Nama Klien</label>
-                        <input type="text" name="klien" class="form-control" placeholder="Nama Klien" required>
+                        <label for="" style="padding-bottom:6px;">Sales In Charge</label>
+                        <input type="text" name="klien" class="form-control" placeholder="Sales In Charge" required>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="" style="padding-bottom:6px;">Jam Mulai</label>
@@ -177,15 +177,15 @@
                                 <input type="time" name="jam_selesai" class="form-control" required>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label for="" style="padding-bottom:6px;">Dekripsi</label>
                         <textarea name="deskripsi" class="form-control" rows="4" placeholder="Deskripsi" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnClose">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
                 </div>
             </form>
         </div>
