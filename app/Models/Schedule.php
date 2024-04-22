@@ -51,7 +51,23 @@ class Schedule extends Model
         return $text;
     }
 
-    public static function gt_date_and_schedules($default_date)
+    public static function gt_all_date($default_date)
+    {
+        $dt_date = [];
+        for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
+            $tanggal = date('Y-m-d', strtotime(date($default_date.'-'.$i.'')));
+
+            $dt_date[] = [
+                'hari'          => date('D', strtotime($tanggal)),
+                'date'          => date('d', strtotime($tanggal)),
+            ];
+        }
+
+        return $dt_date;
+
+    }
+
+    public static function gt_date_and_schedules_old($default_date)
     {
         $get_schedules = static::where('status',1)->get();
 
@@ -86,6 +102,82 @@ class Schedule extends Model
         }
 
         return $dt_date_permonth;
+    }
+
+    public static function gt_date_and_schedules($default_date)
+    {
+        $get_rooms = Room::where('status',1)->get();
+
+        $dt_jadwal = [];
+        foreach($get_rooms as $room){
+
+            $get_schedules = static::where(['status' => 1,'id_room' => $room->id])->get();
+    
+            for ($i = 1; $i <= date('t', strtotime($default_date.'-01')); $i++){
+                $tanggal = date('Y-m-d', strtotime(date($default_date.'-'.$i.'')));
+
+                $title = $description = $start_datetime = $start_date = $end_datetime = $end_date = $id_room = $tanggal_full = $jam_full = $client = null;
+                if(!empty($get_schedules)){
+                    foreach($get_schedules as $row){
+                        if($tanggal == $row->date){
+                            $description = $row->description;
+                            $id_room = $row->id_room;
+                            $tanggal_full = date("d", strtotime($row->date)).' '.static::convert_nama_bulan(date("m", strtotime($row->date))).' '.date("Y", strtotime($row->date));
+                            // $jam_full = date("H:i", strtotime($row->start_time)).' s/d '.date('H:i', strtotime($row->end_time));
+                            $jam_full = 'Jam : '.date("H:i", strtotime($row->created_at));
+                            $client = $row->client;
+                        }
+                    }
+                }
+
+                $dt_jadwal[] = [
+                    'id_room'   => $room->id,
+                    'jadwal'    => [
+                        'client'        => $client,
+                        'tanggal'       => $tanggal,
+                        'description'   => $description,
+                        'id_room'       => $room->id,
+                        'hari'          => date('D', strtotime($tanggal)),
+                        'date'          => date('d', strtotime($tanggal)),
+                        'tanggal_full'  => $tanggal_full,
+                        'jam_full'      => $jam_full
+                    ],
+                ];
+
+            }
+
+        }
+
+        $dt_jadwal_room = [];
+        foreach($get_rooms as $key_room =>$room){
+
+            $id_room = $room->id;
+            
+            $dt_jadwal_room[] = [
+                'id'    => $id_room,
+                'room'  => $room->room,
+                'slug'  => $room->slug
+            ];
+
+            foreach($dt_jadwal as $key => $row) {
+                if($row['id_room'] == $id_room){
+                    $dt_jadwal_room[$key_room]['jadwal'][] = [
+                        'client'        => $row['jadwal']['client'],
+                        'tanggal'       => $row['jadwal']['tanggal'],
+                        'description'   => $row['jadwal']['description'],
+                        'hari'          => $row['jadwal']['hari'],
+                        'date'          => $row['jadwal']['date'],
+                        'tanggal_full'  => $row['jadwal']['tanggal_full'],
+                        'jam_full'      => $row['jadwal']['jam_full']
+                    ];
+                }
+            }
+
+        }
+
+        // dd($dt_jadwal_room);
+
+        return $dt_jadwal_room;
     }
 
     public static function gt_date_and_schedules_by_room($default_date, $get_id_room, $month_filter, $year_filter)

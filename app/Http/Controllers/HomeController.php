@@ -24,12 +24,15 @@ class HomeController extends Controller
         }
 
         $gt_date_and_schedules = Schedule::gt_date_and_schedules($default_date);
-
+        $gt_all_date = Schedule::gt_all_date($default_date);
+        
         if(Auth::check()){
             return view('auth/home', [
                 'page'          => 'Home',
                 'js_script'     => '/js/home.js',
-                'jadwal'        => $gt_date_and_schedules,
+                // 'jadwal'        => $gt_date_and_schedules,
+                'dt_date'       => $gt_all_date,
+                'room_jadwal'   => $gt_date_and_schedules,
                 'data'          => Room::all(),
                 'month_filter'  => $month_filter,
                 'year_filter'   => $year_filter
@@ -38,7 +41,9 @@ class HomeController extends Controller
             return view('home', [
                 'page'          => 'Home',
                 'js_script'     => '/js/home.js',
-                'jadwal'        => $gt_date_and_schedules,
+                // 'jadwal'        => $gt_date_and_schedules,
+                'dt_date'       => $gt_all_date,
+                'room_jadwal'   => $gt_date_and_schedules,
                 'data'          => Room::all(),
                 'month_filter'  => $month_filter,
                 'year_filter'   => $year_filter

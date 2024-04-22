@@ -22,11 +22,11 @@
     <div class="tableFixHead">
     <table border="0" width="5600px">
        
-        @foreach(collect($room_jadwal)->chunk(3) as $datax)
+        @foreach($data->chunk(3) as $datax)
 
-        <thead>
-            <tr>
-                @foreach(collect($dt_date)->chunk(7) as $kal)
+            <thead>
+                <tr>
+                    @foreach(collect($jadwal)->chunk(7) as $kal)
 
                         <th width="500px">
                             <form action="/" method="GET">
@@ -71,12 +71,12 @@
             @foreach($datax as $row) 
     
                 <tr>
-                    @foreach (collect($row['jadwal'])->chunk(7) as $jadwalx)
+                    @foreach (collect($jadwal)->chunk(7) as $jadwalx)
 
                     <td style="border: 2px solid black;text-align:center;">
-                        <a href="pageRoom/{{ $row['slug']; }}">
+                        <a href="pageRoom/{{ $row->slug }}">
                             <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;color:black;">
-                                {{ $row['room']; }}
+                                {{ $row->room; }}
                             </div>
                         </a>
                     </td>
@@ -85,6 +85,7 @@
                         @if ( $row1['hari'] == "Sun")
                             @if ( date('d') == $row1['date'])
                                 <td width="150px" style="text-align: left;border: 2px solid red;color:red;background-color: red; font-size : 11px; color:white;">
+                                    @if ( $row->id == $row1['id_room'] )
                                     <b>{{ $row1['client'] }}</b>
                                     <br>
                                     <br>
@@ -94,9 +95,11 @@
                                     {{ $row1['tanggal_full'] }}
                                     <br>
                                     {{ $row1['jam_full'] }}
+                                    @endif
                                 </td>
                             @else
                                 <td width="150px" style="text-align: left;border: 2px solid red;color:red;font-size : 11px;">
+                                    @if ( $row->id == $row1['id_room'] )
                                     <b>{{ $row1['client'] }}</b>
                                     <br>
                                     <br>
@@ -106,11 +109,13 @@
                                     {{ $row1['tanggal_full'] }}
                                     <br>
                                     {{ $row1['jam_full'] }}
+                                    @endif
                                 </td>
                             @endif                
                         @else
                             @if ( date('d') == $row1['date'])
                                 <td width="150px" style="text-align: left; border: 2px solid black; background-color: blue; font-size : 11px; color:white;">
+                                    @if ( $row->id == $row1['id_room'] )
                                         <b>{{ $row1['client'] }}</b>
                                         <br>
                                         <br>
@@ -120,10 +125,12 @@
                                         {{ $row1['tanggal_full'] }}
                                         <br>
                                         {{ $row1['jam_full'] }}
+                                    @endif
                                 </td>
                             @else
                                 @if (!empty($row1['description']))
                                     <td width="150px" style="border: 2px solid black; text-align: left;background-color:#e4b236; font-size : 11px; color:white;">
+                                        @if ( $row->id == $row1['id_room'] )
                                         <b>{{ $row1['client'] }}</b>
                                         <br>
                                         <br>
@@ -133,6 +140,7 @@
                                         {{ $row1['tanggal_full'] }}
                                         <br>
                                         {{ $row1['jam_full'] }}
+                                        @endif
                                     </td>
                                 @else
                                     <td width="150px" style="text-align: left; border: 2px solid black;"></td>
