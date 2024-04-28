@@ -22,6 +22,7 @@ Route::get('/pageCalendar', [HomeController::class, 'page_calendar']);
 Route::get('/pageRoom/{slug}', [HomeController::class, 'page_room']);
 Route::post('/processJadwal', [HomeController::class, 'ajax_pcs_jadwal']); // Proses Master Kendaraan
 Route::get('/deleteJadwal', [HomeController::class, 'ajax_del_jadwal']);
+Route::get('/gtPenjadwalan', [HomeController::class, 'ajax_gt_penjadwalan']);
 
 Route::post('/processLogin', [LoginController::class, 'ajax_process_login']);
 Route::get('/logout', [LoginController::class, 'logout']);

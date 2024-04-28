@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Home
 {
+
+    public static function get_user_status()
+    {
+        $get_user = User::where('id', auth()->id())->first();
+
+        return $get_user['user_status'];
+    }
+
     public static function all($id_room = 0)
     {
         if(empty($id_room)){

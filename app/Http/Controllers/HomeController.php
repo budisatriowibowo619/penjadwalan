@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Schedule;
 use App\Models\Room;
+use App\Models\Home;
 
 use Auth;
 
@@ -27,10 +28,19 @@ class HomeController extends Controller
         $gt_all_date = Schedule::gt_all_date($default_date);
         
         if(Auth::check()){
-            return view('auth/home', [
+            $user_status = 0;
+            $gt_user_status = Home::get_user_status();
+            $user_view = '';
+            if($gt_user_status == 1){
+                $user_view = 'auth/home';
+            } else if ($gt_user_status == 2){
+                $user_view = 'auth/home';
+            } else {
+                $user_view = 'auth/home';
+            }
+            return view($user_view, [
                 'page'          => 'Home',
                 'js_script'     => '/js/home.js',
-                // 'jadwal'        => $gt_date_and_schedules,
                 'dt_date'       => $gt_all_date,
                 'room_jadwal'   => $gt_date_and_schedules,
                 'data'          => Room::all(),
@@ -38,15 +48,9 @@ class HomeController extends Controller
                 'year_filter'   => $year_filter
             ]);
         } else {
-            return view('home', [
-                'page'          => 'Home',
-                'js_script'     => '/js/home.js',
-                // 'jadwal'        => $gt_date_and_schedules,
-                'dt_date'       => $gt_all_date,
-                'room_jadwal'   => $gt_date_and_schedules,
-                'data'          => Room::all(),
-                'month_filter'  => $month_filter,
-                'year_filter'   => $year_filter
+            return view('auth/login', [
+                'page'      => 'Login',
+                'js_script' => '/js/auth/login.js' 
             ]);
         }
 
@@ -69,18 +73,26 @@ class HomeController extends Controller
         $gt_date_and_schedules_by_room = Schedule::gt_date_and_schedules_by_room($default_date, $get_room_by_slug->id, $month_filter, $year_filter);
 
         if(Auth::check()){
-            return view('auth/room', [
+            $user_status = 0;
+            $gt_user_status = Home::get_user_status();
+            $user_view = '';
+            if($gt_user_status == 1){
+                $user_view = 'auth/room';
+            } else if ($gt_user_status == 2){
+                $user_view = 'sales/room';
+            } else {
+                $user_view = 'room';
+            }
+            return view($user_view, [
                 'kalender'      => $gt_date_and_schedules_by_room,
                 'room'          => $get_room_by_slug,
                 'month_filter'  => $month_filter,
                 'year_filter'   => $year_filter
             ]);
         } else {
-            return view('room', [
-                'kalender'      => $gt_date_and_schedules_by_room,
-                'room'          => $get_room_by_slug,
-                'month_filter'  => $month_filter,
-                'year_filter'   => $year_filter
+            return view('auth/login', [
+                'page'      => 'Login',
+                'js_script' => '/js/auth/login.js' 
             ]);
         }
     }
@@ -156,6 +168,36 @@ class HomeController extends Controller
                 'success'   => TRUE,
                 'message'   => 'Jadwal berhasil dihapus'
             ]);
+        }
+    }
+
+    public function ajax_gt_penjadwalan(Request $request)
+    {
+        if ($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                'id'   => 'required'
+            ]);
+
+            if($validator->fails()) {
+                return response()->json(implode(',',$validator->errors()->all()), 422);
+            }
+            
+            $gt_penjadwalan = Schedule::where('id', $request->id)->first();
+
+            $arr_penjadwalan = [];
+
+            if(!empty($gt_penjadwalan))
+            {
+                $arr_penjadwalan = [
+                    'id'            => $gt_penjadwalan->id,
+                    'client'        => $gt_penjadwalan->client,
+                    'description'   => $gt_penjadwalan->description,
+                    'tanggal'       => $gt_penjadwalan->date
+                ];
+            }
+
+            return response()->json($arr_penjadwalan);
+
         }
     }
 
