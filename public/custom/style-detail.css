@@ -45,3 +45,40 @@ table {
 .form-group label{
     font-weight: 500;
 }
+
+.float{
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    background-color:#dc3545;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
+    margin-left:2px;
+}
+
+.float-left{
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    left:40px;
+    background-color:#04AA6D;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+    border:0px;
+}
+
+.my-float-left{
+	margin-top:0px;
+    margin-left:2px;
+}

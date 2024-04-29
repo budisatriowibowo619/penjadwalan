@@ -13,11 +13,16 @@
     <link id="skin-default" rel="stylesheet" href="{{ asset('/dashlite/css/theme.css?ver=3.1.0') }}">
     <link rel="stylesheet" href="{{ asset('custom/style.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('custom/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- End CSS -->
     
 </head>
 
 <body>
+
+    <a href="/logout" class="float" title="Logout">
+        <i class="fas fa-sign-out-alt my-float"></i>
+    </a>
     
     <div class="tableFixHead">
     <table border="0" width="5600px">
@@ -30,8 +35,6 @@
 
                         <th width="500px">
                             <form action="/" method="GET">
-                                {{-- <button class="arrow-button"><</button> --}}
-                                <a href="/logout" class="button-logout">Logout</a>
                                 <select name="bulan" id="bulan">
                                     <option value="">Pilih Bulan</option>
                                     <option value="01" {{ ($month_filter == 1) ? 'selected' : '' }}>Januari</option>
@@ -75,7 +78,7 @@
 
                     <td style="border: 2px solid black;text-align:center;">
                         <a href="pageRoom/{{ $row['slug']; }}">
-                            <div style="padding-top:80px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;color:black;">
+                            <div style="padding-top:40px;;height:100%;width:100%;text-align:center;margin:auto;vertical-align: middle;display: inline-block;color:black;">
                                 {{ $row['room']; }}
                             </div>
                         </a>

@@ -14,11 +14,20 @@
     <link rel="stylesheet" href="{{ asset('custom/style.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('custom/style-detail.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- End CSS -->
     
 </head>
 
 <body>
+
+    <a href="/logout" class="float" title="Logout">
+        <i class="fas fa-sign-out-alt my-float"></i>
+    </a>
+
+    <button class="float-left" title="Kembali" onclick="history.back()">
+        <i class="fas fa-arrow-left my-float-left"></i>
+    </button>
 
     <div class="container">
 
